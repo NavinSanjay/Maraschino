@@ -4,6 +4,7 @@ import siteConfig from './config/siteConfig';
 import { trackScrollDepth } from './utils/analytics';
 
 // Components
+import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import WhatWeDo from './components/WhatWeDo';
 import Projects from './components/Projects';
@@ -19,12 +20,25 @@ import CookieConsent from './components/CookieConsent';
 
 function App() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const [scrollDepthTracked, setScrollDepthTracked] = useState({
     25: false,
     50: false,
     75: false,
     100: false,
   });
+
+  // Detect first scroll
+  useEffect(() => {
+    const handleFirstScroll = () => {
+      if (window.scrollY > 50 && !hasScrolled) {
+        setHasScrolled(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleFirstScroll);
+    return () => window.removeEventListener('scroll', handleFirstScroll);
+  }, [hasScrolled]);
 
   // Scroll depth tracking
   useEffect(() => {
@@ -67,15 +81,24 @@ function App() {
 
   return (
     <div className="App">
-      <Hero onBookClick={openBookingModal} />
-      <WhatWeDo onBookClick={openBookingModal} />
-      <Projects />
-      <FounderLetter />
+      <Navbar hasScrolled={hasScrolled} onBookClick={openBookingModal} />
+      <Hero onBookClick={openBookingModal} hasScrolled={hasScrolled} />
+      <div id="services">
+        <WhatWeDo onBookClick={openBookingModal} />
+      </div>
+      <div id="projects">
+        <Projects />
+      </div>
+      <div id="founder">
+        <FounderLetter />
+      </div>
       <BookingPackages onBookClick={openBookingModal} />
       <OurVibe />
       <FAQ />
       <BlogTeaser />
-      <Footer />
+      <div id="footer">
+        <Footer />
+      </div>
 
       <FloatingBookButton onClick={openBookingModal} />
       <BookingModal isOpen={isBookingModalOpen} onClose={closeBookingModal} />
