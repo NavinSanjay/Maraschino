@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { theme } from '../config/theme';
 import siteConfig from '../config/siteConfig';
 
@@ -10,92 +10,158 @@ const FAQ = () => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  // Group FAQs (for now, show all in one group)
+  const clusters = [
+    {
+      name: 'Working together',
+      items: siteConfig.faq.items.slice(0, 3),
+    },
+    {
+      name: 'Results & coverage',
+      items: siteConfig.faq.items.slice(3, 5),
+    },
+    {
+      name: 'Logistics',
+      items: siteConfig.faq.items.slice(5),
+    },
+  ];
+
   return (
     <section
       style={{
-        backgroundColor: theme.colors.secondary,
-        padding: 'clamp(60px, 10vw, 120px) 20px',
+        backgroundColor: theme.colors.primary,
+        padding: 'clamp(80px, 12vw, 140px) 20px',
       }}
     >
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         <h2
           style={{
             fontFamily: theme.fonts.heading,
-            fontSize: 'clamp(32px, 5vw, 48px)',
-            color: theme.colors.primary,
-            marginBottom: '48px',
+            fontSize: 'clamp(36px, 6vw, 56px)',
+            color: theme.colors.cream,
+            marginBottom: '16px',
             textAlign: 'center',
+            fontWeight: '400',
+            letterSpacing: '-0.02em',
           }}
         >
           {siteConfig.faq.title}
         </h2>
+        <p
+          style={{
+            fontSize: '17px',
+            color: theme.colors.cream,
+            opacity: 0.85,
+            textAlign: 'center',
+            marginBottom: '64px',
+            fontWeight: '300',
+            lineHeight: '1.7',
+          }}
+        >
+          A few things founders usually ask before adding the cherry.
+        </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {siteConfig.faq.items.map((item, index) => (
+        {/* Q&A clusters */}
+        <div>
+          {clusters.map((cluster, clusterIndex) => (
             <div
-              key={item.id}
+              key={clusterIndex}
               style={{
-                backgroundColor: theme.colors.white,
-                borderRadius: '8px',
-                overflow: 'hidden',
-                border: `1px solid ${openIndex === index ? theme.colors.accent : '#e5e7eb'}`,
-                transition: 'border-color 0.3s ease',
+                marginBottom: clusterIndex < clusters.length - 1 ? '56px' : '0',
               }}
             >
-              <button
-                onClick={() => toggleQuestion(index)}
+              {/* Cluster heading */}
+              <h3
                 style={{
-                  width: '100%',
-                  padding: '20px 24px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  fontFamily: theme.fonts.body,
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  color: theme.colors.accent,
+                  textTransform: 'uppercase',
+                  letterSpacing: '2px',
+                  marginBottom: '24px',
                 }}
               >
-                <span
-                  style={{
-                    fontSize: '18px',
-                    fontWeight: '600',
-                    color: theme.colors.primary,
-                  }}
-                >
-                  {item.question}
-                </span>
-                <ChevronDown
-                  size={20}
-                  color={theme.colors.accent}
-                  style={{
-                    transition: 'transform 0.3s ease',
-                    transform: openIndex === index ? 'rotate(180deg)' : 'rotate(0deg)',
-                    flexShrink: 0,
-                    marginLeft: '16px',
-                  }}
-                />
-              </button>
+                {cluster.name}
+              </h3>
 
-              <div
-                style={{
-                  maxHeight: openIndex === index ? '500px' : '0',
-                  overflow: 'hidden',
-                  transition: 'max-height 0.4s ease, padding 0.4s ease',
-                  padding: openIndex === index ? '0 24px 20px 24px' : '0 24px',
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: '15px',
-                    lineHeight: '1.7',
-                    color: theme.colors.text.subtle,
-                    margin: 0,
-                  }}
-                >
-                  {item.answer}
-                </p>
+              {/* Questions in cluster */}
+              <div>
+                {cluster.items.map((item, itemIndex) => {
+                  const globalIndex = clusterIndex * 3 + itemIndex;
+                  const isOpen = openIndex === globalIndex;
+
+                  return (
+                    <div
+                      key={item.id}
+                      style={{
+                        marginBottom: '20px',
+                        paddingBottom: '20px',
+                        borderBottom: `1px solid ${theme.colors.cream}15`,
+                      }}
+                    >
+                      <button
+                        onClick={() => toggleQuestion(globalIndex)}
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'start',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          padding: 0,
+                          fontFamily: theme.fonts.heading,
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: 'clamp(18px, 3vw, 22px)',
+                            color: theme.colors.cream,
+                            fontWeight: '500',
+                            flex: 1,
+                            lineHeight: '1.4',
+                            paddingRight: '16px',
+                          }}
+                        >
+                          {item.question}
+                        </span>
+                        <span
+                          style={{
+                            color: theme.colors.accent,
+                            flexShrink: 0,
+                            transition: 'transform 0.3s ease',
+                            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                          }}
+                        >
+                          {isOpen ? <Minus size={20} /> : <Plus size={20} />}
+                        </span>
+                      </button>
+
+                      <div
+                        style={{
+                          maxHeight: isOpen ? '500px' : '0',
+                          overflow: 'hidden',
+                          transition: 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease',
+                          opacity: isOpen ? 1 : 0,
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontSize: '15px',
+                            lineHeight: '1.8',
+                            color: theme.colors.cream,
+                            opacity: 0.8,
+                            marginTop: '16px',
+                            fontWeight: '300',
+                          }}
+                        >
+                          {item.answer}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}

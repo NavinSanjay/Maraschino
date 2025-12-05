@@ -9,140 +9,225 @@ const BlogTeaser = () => {
     return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   };
 
+  const [featuredPost, ...otherPosts] = siteConfig.blog.posts;
+
   return (
     <section
       style={{
         backgroundColor: theme.colors.cream,
-        padding: 'clamp(60px, 10vw, 120px) 20px',
+        padding: 'clamp(80px, 12vw, 140px) 20px',
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <h2
           style={{
             fontFamily: theme.fonts.heading,
-            fontSize: 'clamp(32px, 5vw, 48px)',
+            fontSize: 'clamp(36px, 6vw, 56px)',
             color: theme.colors.primary,
-            marginBottom: '48px',
+            marginBottom: '64px',
             textAlign: 'center',
+            fontWeight: '400',
+            letterSpacing: '-0.02em',
           }}
         >
           {siteConfig.blog.title}
         </h2>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '32px',
-          }}
-        >
-          {siteConfig.blog.posts.map((post) => (
+        {/* Featured story */}
+        {featuredPost && (
+          <div
+            style={{
+              marginBottom: '72px',
+              paddingBottom: '64px',
+              borderBottom: `1px solid ${theme.colors.accent}30`,
+              cursor: 'pointer',
+              transition: 'opacity 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.85';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+          >
             <div
-              key={post.slug}
               style={{
-                backgroundColor: theme.colors.white,
-                borderRadius: '8px',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.08)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
+                display: 'grid',
+                gridTemplateColumns: window.innerWidth > 768 ? '1.2fr 1fr' : '1fr',
+                gap: 'clamp(40px, 6vw, 64px)',
+                alignItems: 'center',
               }}
             >
-              {/* Placeholder image area */}
-              <div
-                style={{
-                  backgroundColor: theme.colors.secondary,
-                  height: '200px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <span
+              {/* Story content */}
+              <div>
+                <div
                   style={{
-                    fontSize: '14px',
+                    fontSize: '13px',
                     color: theme.colors.text.subtle,
-                    fontStyle: 'italic',
+                    marginBottom: '12px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
                   }}
                 >
-                  Blog image placeholder
-                </span>
-              </div>
-
-              <div style={{ padding: '24px' }}>
-                <div style={{ marginBottom: '12px' }}>
-                  <span
-                    style={{
-                      fontSize: '13px',
-                      color: theme.colors.text.subtle,
-                    }}
-                  >
-                    {formatDate(post.date)}
-                  </span>
+                  {formatDate(featuredPost.date)}
                 </div>
-
                 <h3
                   style={{
                     fontFamily: theme.fonts.heading,
-                    fontSize: '20px',
+                    fontSize: 'clamp(28px, 4vw, 40px)',
                     color: theme.colors.primary,
-                    marginBottom: '12px',
-                    lineHeight: '1.3',
+                    marginBottom: '20px',
+                    fontWeight: '500',
+                    lineHeight: '1.2',
+                    letterSpacing: '-0.01em',
                   }}
                 >
-                  {post.title}
+                  {featuredPost.title}
                 </h3>
-
                 <p
                   style={{
-                    fontSize: '15px',
-                    lineHeight: '1.6',
+                    fontSize: '17px',
+                    lineHeight: '1.7',
                     color: theme.colors.text.subtle,
-                    marginBottom: '16px',
+                    marginBottom: '24px',
                   }}
                 >
-                  {post.excerpt}
+                  {featuredPost.excerpt}
                 </p>
-
-                {post.tags && post.tags.length > 0 && (
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
-                    {post.tags.map((tag, idx) => (
-                      <span
-                        key={idx}
-                        style={{
-                          fontSize: '12px',
-                          color: theme.colors.accent,
-                          backgroundColor: theme.colors.secondary,
-                          padding: '4px 10px',
-                          borderRadius: '12px',
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '20px' }}>
+                  {featuredPost.tags.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        fontSize: '12px',
+                        color: theme.colors.accent,
+                        fontWeight: '500',
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
                 <div
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    color: theme.colors.accent,
-                    fontSize: '14px',
-                    fontWeight: '600',
+                    color: theme.colors.primary,
+                    fontSize: '15px',
+                    fontWeight: '500',
                   }}
                 >
-                  <span>Read more</span>
+                  <span>Read story</span>
                   <ArrowRight size={16} />
                 </div>
+              </div>
+
+              {/* Visual placeholder */}
+              <div
+                style={{
+                  minHeight: '300px',
+                  background: `linear-gradient(135deg, ${theme.colors.secondary}40 0%, ${theme.colors.primary}20 100%)`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  order: window.innerWidth > 768 ? 1 : -1,
+                }}
+              >
+                <svg
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{ width: '60px', height: '60px', opacity: 0.3 }}
+                >
+                  <circle cx="50" cy="60" r="25" fill={theme.colors.accent} />
+                  <path
+                    d="M50 35 Q 45 25, 50 15"
+                    stroke={theme.colors.accent}
+                    strokeWidth="2"
+                    fill="none"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Secondary stories list */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
+            gap: '40px',
+          }}
+        >
+          {otherPosts.map((post) => (
+            <div
+              key={post.slug}
+              style={{
+                cursor: 'pointer',
+                transition: 'opacity 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.7';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: theme.colors.text.subtle,
+                  marginBottom: '8px',
+                }}
+              >
+                {formatDate(post.date)}
+              </div>
+              <h4
+                style={{
+                  fontFamily: theme.fonts.heading,
+                  fontSize: 'clamp(20px, 3vw, 24px)',
+                  color: theme.colors.primary,
+                  marginBottom: '12px',
+                  fontWeight: '500',
+                  lineHeight: '1.3',
+                }}
+              >
+                {post.title}
+              </h4>
+              <p
+                style={{
+                  fontSize: '15px',
+                  lineHeight: '1.6',
+                  color: theme.colors.text.subtle,
+                  marginBottom: '12px',
+                }}
+              >
+                {post.excerpt}
+              </p>
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
+                {post.tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      fontSize: '11px',
+                      color: theme.colors.text.subtle,
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div
+                style={{
+                  fontSize: '14px',
+                  color: theme.colors.primary,
+                  fontWeight: '500',
+                }}
+              >
+                Read more →
               </div>
             </div>
           ))}
