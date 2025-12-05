@@ -69,10 +69,10 @@ export const siteConfig = {
     items: [
       {
         id: 'luminous-skin',
-        brandName: 'Luminous Skin Co.',
+        brandName: 'Embreis Beauty',
         sector: 'Clean Beauty',
         shortTagline: 'From indie darling to Vogue favorite',
-        thumbnailImage: '/cherry-placeholder.svg',
+        thumbnailImage: '/images/embreis.png',
         highlight: '12 major features in 6 months',
         fullStory: {
           services: [
@@ -103,7 +103,7 @@ export const siteConfig = {
         brandName: 'The Wellness Ritual',
         sector: 'Wellness & Self-Care',
         shortTagline: 'Elevating a supplement brand through storytelling',
-        thumbnailImage: '/cherry-placeholder.svg',
+        thumbnailImage: '/images/embreis-2.png',
         highlight: 'Positioned as thought leaders',
         fullStory: {
           services: [
@@ -140,7 +140,7 @@ export const siteConfig = {
       'After a decade in beauty and wellness PR at some of the industry\'s biggest agencies, I kept noticing the same thing: the most meaningful coverage came from the most authentic stories.',
       'Maraschino was born from a belief that boutique brands deserve boutique attention. No cookie-cutter pitches. No spray-and-pray tactics. Just thoughtful, story-led publicity that honors what you\'ve built.',
       'We work with brands who care about craft, integrity, and connection. If that sounds like you, let\'s talk.',
-      '— Alexandra',
+      '— Isabella',
     ],
   },
 
@@ -385,7 +385,7 @@ export const siteConfig = {
   emails: {
     consultationConfirmationClient: {
       subject: 'Your consultation with Maraschino is confirmed',
-      body: 'Hi {{name}},\n\nYour 30-minute consultation is confirmed for {{date}} at {{time}} {{timezone}}.\n\nWe\'ll discuss your brand ({{brandName}}) and explore how PR can support your goals. No pressure, just a friendly conversation.\n\nLooking forward to it!\n\n— Alexandra\nMaraschino Publicity',
+      body: 'Hi {{name}},\n\nYour 30-minute consultation is confirmed for {{date}} at {{time}} {{timezone}}.\n\nWe\'ll discuss your brand ({{brandName}}) and explore how PR can support your goals. No pressure, just a friendly conversation.\n\nLooking forward to it!\n\n— Isabella\nMaraschino Publicity',
     },
     consultationNotificationStudio: {
       subject: 'New consultation booked: {{brandName}}',
@@ -393,7 +393,7 @@ export const siteConfig = {
     },
     consultationReminderClient: {
       subject: 'Reminder: Your Maraschino consultation is tomorrow',
-      body: 'Hi {{name}},\n\nJust a friendly reminder that we\'re chatting tomorrow ({{date}}) at {{time}} {{timezone}}.\n\nLooking forward to learning more about {{brandName}}!\n\n— Alexandra\nMaraschino Publicity',
+      body: 'Hi {{name}},\n\nJust a friendly reminder that we\'re chatting tomorrow ({{date}}) at {{time}} {{timezone}}.\n\nLooking forward to learning more about {{brandName}}!\n\n— Isabella\nMaraschino Publicity',
     },
   },
 

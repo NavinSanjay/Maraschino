@@ -125,7 +125,7 @@ const FounderLetter = () => {
                 fontStyle: 'italic',
               }}
             >
-              — Alexandra
+              — Isabella
             </p>
             <p
               style={{

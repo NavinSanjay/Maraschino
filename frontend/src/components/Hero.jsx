@@ -30,6 +30,19 @@ const Hero = ({ onBookClick, hasScrolled }) => {
         overflow: 'hidden',
       }}
     >
+        {/* Moody vignette / shadow tone */}
+  <div
+    style={{
+      position: 'absolute',
+      inset: 0,
+      background:
+        'radial-gradient(circle at top, rgba(0,0,0,0.18) 0%, transparent 55%),' +
+        'radial-gradient(circle at bottom, rgba(0,0,0,0.25) 0%, transparent 55%)',
+      pointerEvents: 'none',
+      zIndex: 0,
+    }}
+  />
+
       {/* Animated Cherry - Always visible, larger when alone */}
       <div
         style={{
@@ -103,7 +116,7 @@ const Hero = ({ onBookClick, hasScrolled }) => {
           style={{
             fontFamily: theme.fonts.body,
             fontSize: 'clamp(18px, 3vw, 24px)',
-            color: theme.colors.cream,
+            color: theme.colors.accent,
             opacity: 0.9,
             marginBottom: '40px',
             lineHeight: '1.6',

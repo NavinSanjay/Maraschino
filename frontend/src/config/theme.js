@@ -3,7 +3,7 @@ export const theme = {
   colors: {
     primary: '#812118',        // Deep cherry - main background
     secondary: '#ffdaec',      // Blush pink - panels
-    accent: '#c9a075',         // Gold - accents
+    accent: '#c9ae75',         // Gold - accents
     cream: '#f6efe5',          // Cream - alternate panels
     white: '#ffffff',
     text: {

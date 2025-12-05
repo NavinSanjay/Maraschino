@@ -27,11 +27,14 @@ const OurVibe = () => {
         setStatus('error');
         setMessage('Something went wrong. Please try again.');
       }
-    } catch (error) {
+    } catch {
       setStatus('error');
       setMessage('Something went wrong. Please try again.');
     }
   };
+
+  const isNarrow =
+    typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
     <section
@@ -41,90 +44,118 @@ const OurVibe = () => {
         position: 'relative',
       }}
     >
-      {/* Subtle gradient overlay */}
+      {/* Subtle glow */}
       <div
         style={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: `radial-gradient(circle at 30% 50%, ${theme.colors.secondary}08 0%, transparent 50%)`,
+          inset: 0,
+          background: `radial-gradient(circle at 50% 0%, ${theme.colors.secondary}10 0%, transparent 55%)`,
           pointerEvents: 'none',
         }}
       />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        {/* Section title */}
-        <h2
-          style={{
-            fontFamily: theme.fonts.heading,
-            fontSize: 'clamp(36px, 6vw, 56px)',
-            color: theme.colors.cream,
-            marginBottom: '56px',
-            textAlign: 'center',
-            fontWeight: '400',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          {siteConfig.vibe.title}
-        </h2>
-
-        {/* Two-column mood layout */}
+      <div
+        style={{
+          maxWidth: '880px',
+          margin: '0 auto',
+          position: 'relative',
+        }}
+      >
+        {/* Label + title */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: window.innerWidth > 768 ? '1fr 1.5fr' : '1fr',
-            gap: 'clamp(48px, 8vw, 80px)',
-            marginBottom: '80px',
+            textAlign: 'center',
+            marginBottom: '32px',
           }}
         >
-          {/* Left - intro paragraph */}
-          <div>
-            <p
-              style={{
-                fontSize: 'clamp(16px, 2.5vw, 19px)',
-                color: theme.colors.cream,
-                lineHeight: '1.8',
-                fontWeight: '300',
-                opacity: 0.9,
-              }}
-            >
-              {siteConfig.vibe.intro}
-            </p>
+          <div
+            style={{
+              textTransform: 'uppercase',
+              letterSpacing: '0.24em',
+              fontSize: '11px',
+              color: theme.colors.cream,
+              opacity: 0.7,
+              marginBottom: '12px',
+            }}
+          >
+            How we feel to work with
           </div>
+          <h2
+            style={{
+              fontFamily: theme.fonts.heading,
+              fontSize: 'clamp(34px, 5.5vw, 52px)',
+              color: theme.colors.cream,
+              fontWeight: 400,
+              letterSpacing: '-0.03em',
+            }}
+          >
+            {siteConfig.vibe.title}
+          </h2>
+        </div>
 
-          {/* Right - poetic list of qualities */}
-          <div>
-            {siteConfig.vibe.qualities.map((quality, index) => {
-              const isLong = quality.length > 20;
-              return (
+        {/* Thin rule */}
+        <div
+          style={{
+            height: '1px',
+            width: '80px',
+            backgroundColor: theme.colors.cream,
+            opacity: 0.4,
+            margin: '0 auto 40px',
+          }}
+        />
+
+        {/* Intro + qualities */}
+        <div style={{ marginBottom: '64px' }}>
+          <p
+            style={{
+              fontSize: 'clamp(15px, 2.3vw, 18px)',
+              color: theme.colors.cream,
+              lineHeight: 1.8,
+              textAlign: 'center',
+              opacity: 0.9,
+              marginBottom: '32px',
+            }}
+          >
+            {siteConfig.vibe.intro}
+          </p>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              justifyItems: 'center',
+            }}
+          >
+            <div>
+              {siteConfig.vibe.qualities.map((quality, index) => (
                 <div
                   key={index}
                   style={{
-                    marginBottom: '20px',
-                    fontSize: isLong ? 'clamp(18px, 3vw, 24px)' : 'clamp(20px, 3.5vw, 28px)',
+                    marginBottom: '14px',
+                    fontSize: 'clamp(18px, 3vw, 24px)',
                     fontFamily: theme.fonts.heading,
                     color: theme.colors.cream,
-                    fontWeight: '400',
-                    fontStyle: index % 3 === 1 ? 'italic' : 'normal',
-                    opacity: 0.95,
-                    lineHeight: '1.4',
+                    fontWeight: 400,
+                    fontStyle: index % 2 === 1 ? 'italic' : 'normal',
+                    textAlign: 'center',
                     letterSpacing: '-0.01em',
                   }}
                 >
                   {quality}
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Email capture band */}
         <div
           style={{
-            backgroundColor: `${theme.colors.secondary}15`,
-            padding: 'clamp(40px, 6vw, 60px) clamp(32px, 5vw, 48px)',
+            marginTop: '24px',
+            padding: 'clamp(32px, 5vw, 52px) clamp(24px, 4vw, 40px)',
+            backgroundColor: 'rgba(255, 218, 236, 0.08)',
+            borderRadius: '12px',
+            border: '1px solid rgba(255, 218, 236, 0.25)',
             textAlign: 'center',
             backdropFilter: 'blur(10px)',
           }}
@@ -132,10 +163,10 @@ const OurVibe = () => {
           <h3
             style={{
               fontFamily: theme.fonts.heading,
-              fontSize: 'clamp(24px, 4vw, 32px)',
+              fontSize: 'clamp(22px, 4vw, 30px)',
               color: theme.colors.cream,
-              marginBottom: '12px',
-              fontWeight: '500',
+              marginBottom: '10px',
+              fontWeight: 500,
             }}
           >
             {siteConfig.vibe.emailCapture.heading}
@@ -144,22 +175,21 @@ const OurVibe = () => {
             style={{
               fontSize: '15px',
               color: theme.colors.cream,
-              marginBottom: '28px',
               opacity: 0.85,
-              lineHeight: '1.6',
+              lineHeight: 1.6,
+              marginBottom: '22px',
             }}
           >
             {siteConfig.vibe.emailCapture.description}
           </p>
 
-          {/* Inline form */}
           <form
             onSubmit={handleSubmit}
             style={{
               display: 'flex',
-              flexDirection: window.innerWidth > 600 ? 'row' : 'column',
+              flexDirection: isNarrow ? 'column' : 'row',
               gap: '12px',
-              maxWidth: '500px',
+              maxWidth: '480px',
               margin: '0 auto',
               alignItems: 'stretch',
             }}
@@ -173,12 +203,12 @@ const OurVibe = () => {
               disabled={status === 'loading' || status === 'success'}
               style={{
                 flex: 1,
-                padding: '14px 18px',
+                padding: '13px 16px',
                 fontSize: '15px',
                 fontFamily: theme.fonts.body,
-                border: `1px solid ${theme.colors.cream}40`,
-                borderRadius: '4px',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '999px',
+                border: '1px solid rgba(246, 239, 229, 0.6)',
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
                 color: theme.colors.cream,
                 outline: 'none',
               }}
@@ -202,7 +232,8 @@ const OurVibe = () => {
               style={{
                 marginTop: '16px',
                 fontSize: '14px',
-                color: status === 'success' ? theme.colors.cream : '#ef4444',
+                color:
+                  status === 'success' ? theme.colors.cream : '#ef4444',
                 fontStyle: 'italic',
               }}
             >

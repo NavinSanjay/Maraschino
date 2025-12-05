@@ -6,25 +6,40 @@ import siteConfig from '../config/siteConfig';
 const BlogTeaser = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    return date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
   };
 
   const [featuredPost, ...otherPosts] = siteConfig.blog.posts;
+  const isDesktop =
+    typeof window !== 'undefined' && window.innerWidth > 768;
 
   return (
     <section
       style={{
-        backgroundColor: theme.colors.cream,
+        backgroundColor: theme.colors.primary,
         padding: 'clamp(80px, 12vw, 140px) 20px',
       }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div
+        style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          backgroundColor: theme.colors.cream,
+          borderRadius: '24px',
+          padding: 'clamp(56px, 8vw, 80px) clamp(32px, 6vw, 64px)',
+          boxShadow: '0 24px 80px rgba(0,0,0,0.32)',
+        }}
+      >
         <h2
           style={{
             fontFamily: theme.fonts.heading,
             fontSize: 'clamp(36px, 6vw, 56px)',
             color: theme.colors.primary,
-            marginBottom: '64px',
+            marginBottom: '48px',
             textAlign: 'center',
             fontWeight: '400',
             letterSpacing: '-0.02em',
@@ -37,8 +52,8 @@ const BlogTeaser = () => {
         {featuredPost && (
           <div
             style={{
-              marginBottom: '72px',
-              paddingBottom: '64px',
+              marginBottom: '64px',
+              paddingBottom: '48px',
               borderBottom: `1px solid ${theme.colors.accent}30`,
               cursor: 'pointer',
               transition: 'opacity 0.3s ease',
@@ -53,8 +68,8 @@ const BlogTeaser = () => {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: window.innerWidth > 768 ? '1.2fr 1fr' : '1fr',
-                gap: 'clamp(40px, 6vw, 64px)',
+                gridTemplateColumns: isDesktop ? '1.2fr 1fr' : '1fr',
+                gap: 'clamp(32px, 5vw, 56px)',
                 alignItems: 'center',
               }}
             >
@@ -94,7 +109,14 @@ const BlogTeaser = () => {
                 >
                   {featuredPost.excerpt}
                 </p>
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '20px' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '8px',
+                    flexWrap: 'wrap',
+                    marginBottom: '20px',
+                  }}
+                >
                   {featuredPost.tags.map((tag, idx) => (
                     <span
                       key={idx}
@@ -126,21 +148,22 @@ const BlogTeaser = () => {
               {/* Visual placeholder */}
               <div
                 style={{
-                  minHeight: '300px',
-                  background: `linear-gradient(135deg, ${theme.colors.secondary}40 0%, ${theme.colors.primary}20 100%)`,
+                  minHeight: '260px',
+                  background: `linear-gradient(135deg, ${theme.colors.secondary}40 0%, ${theme.colors.primary}10 100%)`,
+                  borderRadius: '20px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  order: window.innerWidth > 768 ? 1 : -1,
+                  order: isDesktop ? 1 : -1,
                 }}
               >
                 <svg
                   viewBox="0 0 100 100"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  style={{ width: '60px', height: '60px', opacity: 0.3 }}
+                  style={{ width: '60px', height: '60px', opacity: 0.35 }}
                 >
-                  <circle cx="50" cy="60" r="25" fill={theme.colors.accent} />
+                  <rcle cx="50" cy="60" r="25" fill={theme.colors.accent} />
                   <path
                     d="M50 35 Q 45 25, 50 15"
                     stroke={theme.colors.accent}
@@ -158,7 +181,7 @@ const BlogTeaser = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
+            gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr',
             gap: '40px',
           }}
         >
@@ -170,7 +193,7 @@ const BlogTeaser = () => {
                 transition: 'opacity 0.3s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.7';
+                e.currentTarget.style.opacity = '0.8';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.opacity = '1';
@@ -207,7 +230,14 @@ const BlogTeaser = () => {
               >
                 {post.excerpt}
               </p>
-              <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '12px',
+                  marginBottom: '12px',
+                  flexWrap: 'wrap',
+                }}
+              >
                 {post.tags.map((tag, idx) => (
                   <span
                     key={idx}

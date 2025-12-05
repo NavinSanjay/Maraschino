@@ -16,7 +16,7 @@ const Projects = () => {
         }}
       >
         {/* Cream panel container */}
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', borderRadius: '50px', overflow: 'hidden' }}>
           <div
             style={{
               backgroundColor: theme.colors.cream,
@@ -87,31 +87,20 @@ const Projects = () => {
                         backgroundColor: theme.colors.primary,
                         padding: '60px',
                         minHeight: '300px',
+                        maxHeight: '400px',
                       }}
                     >
-                      <svg
-                        viewBox="0 0 200 200"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        style={{ width: '140px', height: '140px', filter: 'drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2))' }}
-                      >
-                        <defs>
-                          <radialGradient id={`cherryGrad-${index}`} cx="0.3" cy="0.3">
-                            <stop offset="0%" stopColor={theme.colors.secondary} stopOpacity="1" />
-                            <stop offset="100%" stopColor="#ffb3d9" stopOpacity="1" />
-                          </radialGradient>
-                        </defs>
-                        <circle cx="100" cy="120" r="60" fill={`url(#cherryGrad-${index})`} />
-                        <circle cx="130" cy="110" r="20" fill="rgba(255, 255, 255, 0.4)" />
-                        <circle cx="125" cy="105" r="8" fill="rgba(255, 255, 255, 0.6)" />
-                        <path
-                          d="M100 60 Q 90 40, 100 20"
-                          stroke={theme.colors.accent}
-                          strokeWidth="4"
-                          fill="none"
-                          strokeLinecap="round"
-                        />
-                      </svg>
+                    <img
+                      src={project.thumbnailImage}      // e.g. "/images/embreis.png"
+                      alt={project.brandName}
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '600px',
+                        objectFit: 'cover',
+                        borderRadius: '0px',
+                        boxShadow: '0 18px 40px rgba(0,0,0,0.25)',
+                      }}
+                    />
                     </div>
 
                     {/* Story side */}
