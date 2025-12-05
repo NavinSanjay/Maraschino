@@ -5,8 +5,8 @@ import Button from './Button';
 import { trackButtonClick } from '../utils/analytics';
 
 const WhatWeDo = ({ onBookClick }) => {
-  const handleServiceClick = (serviceId) => {
-    trackButtonClick(`service_${serviceId}`, 'what_we_do');
+  const handleBookClick = () => {
+    trackButtonClick('services_book_button', 'what_we_do');
     onBookClick();
   };
 
@@ -18,159 +18,125 @@ const WhatWeDo = ({ onBookClick }) => {
         position: 'relative',
       }}
     >
-      {/* Subtle decorative element */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '10%',
-          right: '5%',
-          width: '300px',
-          height: '300px',
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${theme.colors.secondary}15 0%, transparent 70%)`,
-          pointerEvents: 'none',
-        }}
-      />
-
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        <div style={{ textAlign: 'center', marginBottom: '72px' }}>
-          <h2
-            style={{
-              fontFamily: theme.fonts.heading,
-              fontSize: 'clamp(36px, 6vw, 56px)',
-              color: theme.colors.cream,
-              marginBottom: '20px',
-              fontWeight: '400',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            {siteConfig.services.title}
-          </h2>
-          <p
-            style={{
-              fontSize: 'clamp(17px, 2.5vw, 21px)',
-              color: theme.colors.cream,
-              opacity: 0.85,
-              maxWidth: '700px',
-              margin: '0 auto',
-              lineHeight: '1.7',
-              fontWeight: '300',
-            }}
-          >
-            {siteConfig.services.intro}
-          </p>
-        </div>
-
+      <div style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative' }}>
+        {/* Luxury treatment menu panel */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '28px',
+            backgroundColor: theme.colors.cream,
+            padding: 'clamp(60px, 8vw, 100px) clamp(40px, 6vw, 80px)',
+            position: 'relative',
           }}
         >
-          {siteConfig.services.items.map((service, index) => (
-            <div
-              key={service.id}
-              style={{
-                backgroundColor: theme.colors.cream,
-                padding: '36px',
-                borderRadius: '12px',
-                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                cursor: 'pointer',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
-                animation: `fadeInUp 0.6s ease ${index * 0.1}s backwards`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 20px 48px rgba(0, 0, 0, 0.15)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.08)';
-              }}
-            >
-              <h3
+          {/* Two-column editorial layout */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: window.innerWidth > 768 ? '1fr 1.5fr' : '1fr',
+              gap: 'clamp(48px, 8vw, 80px)',
+              alignItems: 'start',
+            }}
+          >
+            {/* Left column - Introduction */}
+            <div>
+              <h2
                 style={{
                   fontFamily: theme.fonts.heading,
-                  fontSize: '24px',
+                  fontSize: 'clamp(32px, 5vw, 48px)',
                   color: theme.colors.primary,
-                  marginBottom: '14px',
-                  letterSpacing: '-0.01em',
+                  marginBottom: '24px',
+                  fontWeight: '400',
+                  letterSpacing: '-0.02em',
+                  lineHeight: '1.2',
                 }}
               >
-                {service.title}
-              </h3>
+                {siteConfig.services.title}
+              </h2>
               <p
                 style={{
-                  fontSize: '15px',
-                  lineHeight: '1.7',
+                  fontSize: 'clamp(15px, 2vw, 17px)',
                   color: theme.colors.text.subtle,
-                  marginBottom: '20px',
-                  fontWeight: '400',
+                  lineHeight: '1.8',
+                  fontWeight: '300',
                 }}
               >
-                {service.shortDescription}
+                {siteConfig.services.intro}
               </p>
-              {service.bullets && service.bullets.length > 0 && (
-                <ul
+            </div>
+
+            {/* Right column - Services list */}
+            <div>
+              {siteConfig.services.items.map((service, index) => (
+                <div
+                  key={service.id}
                   style={{
-                    listStyle: 'none',
-                    padding: 0,
-                    margin: '0 0 24px 0',
+                    marginBottom: index < siteConfig.services.items.length - 1 ? '48px' : '0',
+                    paddingBottom: index < siteConfig.services.items.length - 1 ? '48px' : '0',
+                    borderBottom: index < siteConfig.services.items.length - 1 ? `1px solid ${theme.colors.accent}40` : 'none',
+                    transition: 'opacity 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = '0.8';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = '1';
                   }}
                 >
-                  {service.bullets.map((bullet, idx) => (
-                    <li
-                      key={idx}
+                  <h3
+                    style={{
+                      fontFamily: theme.fonts.heading,
+                      fontSize: 'clamp(22px, 3vw, 28px)',
+                      color: theme.colors.primary,
+                      marginBottom: '12px',
+                      fontWeight: '500',
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
+                    {service.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: '15px',
+                      lineHeight: '1.7',
+                      color: theme.colors.text.subtle,
+                      marginBottom: '16px',
+                      fontWeight: '400',
+                    }}
+                  >
+                    {service.shortDescription}
+                  </p>
+                  {service.bullets && service.bullets.length > 0 && (
+                    <p
                       style={{
                         fontSize: '14px',
                         color: theme.colors.text.subtle,
-                        marginBottom: '8px',
-                        paddingLeft: '24px',
-                        position: 'relative',
-                        lineHeight: '1.6',
+                        lineHeight: '1.8',
+                        fontWeight: '300',
+                        fontStyle: 'italic',
                       }}
                     >
-                      <span
-                        style={{
-                          position: 'absolute',
-                          left: 0,
-                          color: theme.colors.accent,
-                          fontSize: '18px',
-                          lineHeight: '1',
-                        }}
-                      >
-                        ✦
-                      </span>
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <Button
-                variant="ghost"
-                size="small"
-                onClick={() => handleServiceClick(service.id)}
-              >
-                {service.microCtaText} →
-              </Button>
+                      {service.bullets.join(' · ')}
+                    </p>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Bottom centered CTA */}
+          <div
+            style={{
+              marginTop: '72px',
+              textAlign: 'center',
+              paddingTop: '48px',
+              borderTop: `1px solid ${theme.colors.accent}40`,
+            }}
+          >
+            <Button onClick={handleBookClick} variant="primary" size="large">
+              Book consultation
+            </Button>
+          </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
 };
