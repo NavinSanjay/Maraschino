@@ -10,142 +10,184 @@ const Projects = () => {
     <>
       <section
         style={{
-          backgroundColor: theme.colors.secondary,
-          padding: 'clamp(60px, 10vw, 120px) 20px',
+          backgroundColor: theme.colors.primary,
+          padding: 'clamp(80px, 12vw, 140px) 20px',
+          position: 'relative',
         }}
       >
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-            <h2
-              style={{
-                fontFamily: theme.fonts.heading,
-                fontSize: 'clamp(32px, 5vw, 48px)',
-                color: theme.colors.primary,
-                marginBottom: '16px',
-              }}
-            >
-              {siteConfig.projects.title}
-            </h2>
-            <p
-              style={{
-                fontSize: 'clamp(16px, 2.5vw, 20px)',
-                color: theme.colors.text.subtle,
-                maxWidth: '700px',
-                margin: '0 auto',
-                lineHeight: '1.6',
-              }}
-            >
-              {siteConfig.projects.subtitle}
-            </p>
-          </div>
-
+        {/* Cream panel container */}
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '32px',
+              backgroundColor: theme.colors.cream,
+              padding: 'clamp(60px, 8vw, 100px) clamp(40px, 6vw, 80px)',
             }}
           >
-            {siteConfig.projects.items.map((project) => (
-              <div
-                key={project.id}
-                onClick={() => setSelectedProject(project)}
+            {/* Section header */}
+            <div style={{ textAlign: 'center', marginBottom: '72px' }}>
+              <h2
                 style={{
-                  backgroundColor: theme.colors.white,
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-6px)';
-                  e.currentTarget.style.boxShadow = '0 16px 40px rgba(0, 0, 0, 0.12)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+                  fontFamily: theme.fonts.heading,
+                  fontSize: 'clamp(36px, 6vw, 56px)',
+                  color: theme.colors.primary,
+                  marginBottom: '20px',
+                  fontWeight: '400',
+                  letterSpacing: '-0.02em',
                 }}
               >
-                {/* Cherry visual */}
-                <div
-                  style={{
-                    backgroundColor: theme.colors.primary,
-                    height: '200px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 100 100"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{ width: '80px', height: '80px' }}
-                  >
-                    <circle cx="50" cy="60" r="30" fill={theme.colors.secondary} />
-                    <circle cx="65" cy="55" r="10" fill="rgba(255, 255, 255, 0.3)" />
-                    <path
-                      d="M50 30 Q 45 20, 50 10"
-                      stroke={theme.colors.accent}
-                      strokeWidth="3"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </div>
+                {siteConfig.projects.title}
+              </h2>
+              <p
+                style={{
+                  fontSize: 'clamp(16px, 2.5vw, 20px)',
+                  color: theme.colors.text.subtle,
+                  maxWidth: '700px',
+                  margin: '0 auto',
+                  lineHeight: '1.7',
+                  fontWeight: '300',
+                }}
+              >
+                {siteConfig.projects.subtitle}
+              </p>
+            </div>
 
-                {/* Project details */}
-                <div style={{ padding: '24px' }}>
+            {/* Projects as editorial rows */}
+            <div>
+              {siteConfig.projects.items.map((project, index) => {
+                const isImageLeft = index % 2 === 0;
+                
+                return (
                   <div
+                    key={project.id}
+                    onClick={() => setSelectedProject(project)}
                     style={{
-                      fontSize: '12px',
-                      fontWeight: '600',
-                      color: theme.colors.accent,
-                      textTransform: 'uppercase',
-                      letterSpacing: '1px',
-                      marginBottom: '8px',
+                      display: 'grid',
+                      gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
+                      gap: 'clamp(32px, 6vw, 64px)',
+                      marginBottom: index < siteConfig.projects.items.length - 1 ? '80px' : '0',
+                      paddingBottom: index < siteConfig.projects.items.length - 1 ? '80px' : '0',
+                      borderBottom: index < siteConfig.projects.items.length - 1 ? `1px solid ${theme.colors.accent}30` : 'none',
+                      cursor: 'pointer',
+                      transition: 'opacity 0.3s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.opacity = '0.85';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.opacity = '1';
                     }}
                   >
-                    {project.sector}
-                  </div>
-                  <h3
-                    style={{
-                      fontFamily: theme.fonts.heading,
-                      fontSize: '24px',
-                      color: theme.colors.primary,
-                      marginBottom: '8px',
-                    }}
-                  >
-                    {project.brandName}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: '15px',
-                      color: theme.colors.text.subtle,
-                      lineHeight: '1.5',
-                      marginBottom: '12px',
-                    }}
-                  >
-                    {project.shortTagline}
-                  </p>
-                  {project.highlight && (
+                    {/* Visual side */}
                     <div
                       style={{
-                        fontSize: '13px',
-                        fontWeight: '600',
-                        color: theme.colors.primary,
-                        backgroundColor: theme.colors.secondary,
-                        padding: '6px 12px',
-                        borderRadius: '4px',
-                        display: 'inline-block',
+                        order: isImageLeft ? 0 : window.innerWidth > 768 ? 1 : 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: theme.colors.primary,
+                        padding: '60px',
+                        minHeight: '300px',
                       }}
                     >
-                      {project.highlight}
+                      <svg
+                        viewBox="0 0 200 200"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={{ width: '140px', height: '140px', filter: 'drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2))' }}
+                      >
+                        <defs>
+                          <radialGradient id={`cherryGrad-${index}`} cx="0.3" cy="0.3">
+                            <stop offset="0%" stopColor={theme.colors.secondary} stopOpacity="1" />
+                            <stop offset="100%" stopColor="#ffb3d9" stopOpacity="1" />
+                          </radialGradient>
+                        </defs>
+                        <circle cx="100" cy="120" r="60" fill={`url(#cherryGrad-${index})`} />
+                        <circle cx="130" cy="110" r="20" fill="rgba(255, 255, 255, 0.4)" />
+                        <circle cx="125" cy="105" r="8" fill="rgba(255, 255, 255, 0.6)" />
+                        <path
+                          d="M100 60 Q 90 40, 100 20"
+                          stroke={theme.colors.accent}
+                          strokeWidth="4"
+                          fill="none"
+                          strokeLinecap="round"
+                        />
+                      </svg>
                     </div>
-                  )}
-                </div>
-              </div>
-            ))}
+
+                    {/* Story side */}
+                    <div
+                      style={{
+                        order: isImageLeft ? 1 : 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: '11px',
+                          fontWeight: '600',
+                          color: theme.colors.accent,
+                          textTransform: 'uppercase',
+                          letterSpacing: '2px',
+                          marginBottom: '12px',
+                        }}
+                      >
+                        {project.sector}
+                      </div>
+                      <h3
+                        style={{
+                          fontFamily: theme.fonts.heading,
+                          fontSize: 'clamp(28px, 4vw, 40px)',
+                          color: theme.colors.primary,
+                          marginBottom: '20px',
+                          fontWeight: '500',
+                          letterSpacing: '-0.01em',
+                          lineHeight: '1.2',
+                        }}
+                      >
+                        {project.brandName}
+                      </h3>
+                      <p
+                        style={{
+                          fontSize: 'clamp(15px, 2vw, 17px)',
+                          color: theme.colors.text.subtle,
+                          lineHeight: '1.8',
+                          marginBottom: '16px',
+                          fontWeight: '400',
+                        }}
+                      >
+                        {project.shortTagline}
+                      </p>
+                      {project.highlight && (
+                        <p
+                          style={{
+                            fontSize: '14px',
+                            fontWeight: '400',
+                            color: theme.colors.primary,
+                            fontStyle: 'italic',
+                            marginBottom: '24px',
+                          }}
+                        >
+                          {project.highlight}
+                        </p>
+                      )}
+                      <div
+                        style={{
+                          fontSize: '14px',
+                          color: theme.colors.primary,
+                          fontWeight: '500',
+                          textDecoration: 'underline',
+                          textUnderlineOffset: '4px',
+                        }}
+                      >
+                        Read the story →
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
