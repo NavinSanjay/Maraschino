@@ -5,77 +5,91 @@ import Button from './Button';
 import { trackButtonClick } from '../utils/analytics';
 
 const BookingPackages = ({ onBookClick }) => {
-  const handlePackageClick = (packageId) => {
-    trackButtonClick(`package_${packageId}`, 'packages');
+  const handleBookClick = () => {
+    trackButtonClick('packages_book_button', 'packages');
     onBookClick();
   };
 
   return (
     <section
       style={{
-        backgroundColor: theme.colors.cream,
-        padding: 'clamp(60px, 10vw, 120px) 20px',
+        backgroundColor: theme.colors.primary,
+        padding: 'clamp(80px, 12vw, 140px) 20px',
+        position: 'relative',
       }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        {/* Section header */}
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <h2
-            style={{
-              fontFamily: theme.fonts.heading,
-              fontSize: 'clamp(32px, 5vw, 48px)',
-              color: theme.colors.primary,
-              marginBottom: '16px',
-            }}
-          >
-            {siteConfig.packages.title}
-          </h2>
-          <p
-            style={{
-              fontSize: 'clamp(16px, 2.5vw, 18px)',
-              color: theme.colors.text.subtle,
-              maxWidth: '800px',
-              margin: '0 auto 32px',
-              lineHeight: '1.6',
-            }}
-          >
-            {siteConfig.packages.intro}
-          </p>
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        {/* Luxury menu panel */}
+        <div
+          style={{
+            backgroundColor: theme.colors.cream,
+            padding: 'clamp(60px, 8vw, 100px) clamp(40px, 6vw, 80px)',
+          }}
+        >
+          {/* Section title */}
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <h2
+              style={{
+                fontFamily: theme.fonts.heading,
+                fontSize: 'clamp(36px, 6vw, 56px)',
+                color: theme.colors.primary,
+                marginBottom: '20px',
+                fontWeight: '400',
+                letterSpacing: '-0.02em',
+              }}
+            >
+              {siteConfig.packages.title}
+            </h2>
+            <p
+              style={{
+                fontSize: 'clamp(16px, 2.5vw, 19px)',
+                color: theme.colors.text.subtle,
+                maxWidth: '800px',
+                margin: '0 auto',
+                lineHeight: '1.7',
+                fontWeight: '300',
+              }}
+            >
+              {siteConfig.packages.intro}
+            </p>
+          </div>
 
-          {/* Free consultation highlight */}
+          {/* Free consultation invitation */}
           <div
             style={{
-              backgroundColor: theme.colors.secondary,
-              padding: '24px',
-              borderRadius: '8px',
-              maxWidth: '600px',
-              margin: '0 auto',
-              border: `2px solid ${theme.colors.accent}`,
+              textAlign: 'center',
+              padding: '40px 32px',
+              marginBottom: '64px',
+              borderTop: `1px solid ${theme.colors.accent}40`,
+              borderBottom: `1px solid ${theme.colors.accent}40`,
             }}
           >
             <h3
               style={{
                 fontFamily: theme.fonts.heading,
-                fontSize: '22px',
+                fontSize: 'clamp(24px, 4vw, 32px)',
                 color: theme.colors.primary,
-                marginBottom: '8px',
+                marginBottom: '16px',
+                fontWeight: '500',
               }}
             >
               {siteConfig.packages.freeConsultation.headline}
             </h3>
             <p
               style={{
-                fontSize: '15px',
+                fontSize: '16px',
                 color: theme.colors.text.dark,
-                lineHeight: '1.6',
+                lineHeight: '1.7',
                 marginBottom: '12px',
+                maxWidth: '700px',
+                margin: '0 auto 12px',
               }}
             >
               {siteConfig.packages.freeConsultation.description}
             </p>
             <p
               style={{
-                fontSize: '13px',
+                fontSize: '14px',
                 color: theme.colors.text.subtle,
                 fontStyle: 'italic',
               }}
@@ -83,121 +97,89 @@ const BookingPackages = ({ onBookClick }) => {
               {siteConfig.packages.freeConsultation.pricing}
             </p>
           </div>
-        </div>
 
-        {/* Package cards */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '24px',
-          }}
-        >
-          {siteConfig.packages.items.map((pkg) => (
-            <div
-              key={pkg.id}
-              style={{
-                backgroundColor: theme.colors.white,
-                padding: '32px',
-                borderRadius: '8px',
-                border: `1px solid #e5e7eb`,
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.08)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              <h3
-                style={{
-                  fontFamily: theme.fonts.heading,
-                  fontSize: '24px',
-                  color: theme.colors.primary,
-                  marginBottom: '12px',
-                }}
-              >
-                {pkg.name}
-              </h3>
-              <p
-                style={{
-                  fontSize: '15px',
-                  lineHeight: '1.6',
-                  color: theme.colors.text.subtle,
-                  marginBottom: '16px',
-                }}
-              >
-                {pkg.shortDescription}
-              </p>
+          {/* Packages as stacked rows */}
+          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+            {siteConfig.packages.items.map((pkg, index) => (
               <div
+                key={pkg.id}
                 style={{
-                  fontSize: '14px',
-                  color: theme.colors.text.dark,
-                  fontWeight: '600',
-                  marginBottom: '12px',
+                  marginBottom: index < siteConfig.packages.items.length - 1 ? '56px' : '0',
+                  paddingBottom: index < siteConfig.packages.items.length - 1 ? '56px' : '0',
+                  borderBottom: index < siteConfig.packages.items.length - 1 ? `1px solid ${theme.colors.accent}30` : 'none',
                 }}
               >
-                {pkg.whoItIsFor}
-              </div>
-              {pkg.typicalInclusions && pkg.typicalInclusions.length > 0 && (
-                <>
+                <h3
+                  style={{
+                    fontFamily: theme.fonts.heading,
+                    fontSize: 'clamp(26px, 4vw, 34px)',
+                    color: theme.colors.primary,
+                    marginBottom: '12px',
+                    fontWeight: '500',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  {pkg.name}
+                </h3>
+                <p
+                  style={{
+                    fontSize: '16px',
+                    lineHeight: '1.7',
+                    color: theme.colors.text.subtle,
+                    marginBottom: '16px',
+                  }}
+                >
+                  {pkg.shortDescription}
+                </p>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    color: theme.colors.text.dark,
+                    fontWeight: '500',
+                    marginBottom: '20px',
+                    fontStyle: 'italic',
+                  }}
+                >
+                  {pkg.whoItIsFor}
+                </p>
+                {pkg.typicalInclusions && pkg.typicalInclusions.length > 0 && (
                   <div
                     style={{
-                      fontSize: '13px',
-                      fontWeight: '600',
+                      fontSize: '14px',
                       color: theme.colors.text.subtle,
-                      textTransform: 'uppercase',
-                      letterSpacing: '1px',
-                      marginBottom: '12px',
+                      lineHeight: '1.8',
                     }}
                   >
-                    Typically includes:
+                    {pkg.typicalInclusions.slice(0, 4).join(' · ')}
                   </div>
-                  <ul
-                    style={{
-                      listStyle: 'none',
-                      padding: 0,
-                      margin: '0 0 24px 0',
-                    }}
-                  >
-                    {pkg.typicalInclusions.map((inclusion, idx) => (
-                      <li
-                        key={idx}
-                        style={{
-                          fontSize: '14px',
-                          color: theme.colors.text.subtle,
-                          marginBottom: '8px',
-                          paddingLeft: '20px',
-                          position: 'relative',
-                        }}
-                      >
-                        <span
-                          style={{
-                            position: 'absolute',
-                            left: 0,
-                            color: theme.colors.accent,
-                          }}
-                        >
-                          ✓
-                        </span>
-                        {inclusion}
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-              <Button
-                onClick={() => handlePackageClick(pkg.id)}
-                variant="primary"
-                size="small"
-              >
-                Book consultation
-              </Button>
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Single centered CTA */}
+          <div
+            style={{
+              marginTop: '72px',
+              textAlign: 'center',
+              paddingTop: '48px',
+              borderTop: `1px solid ${theme.colors.accent}40`,
+            }}
+          >
+            <p
+              style={{
+                fontSize: '14px',
+                color: theme.colors.text.subtle,
+                marginBottom: '24px',
+                fontStyle: 'italic',
+              }}
+            >
+              Let's discuss which approach feels right for your brand.
+            </p>
+            <Button onClick={handleBookClick} variant="primary" size="large">
+              Book consultation
+            </Button>
+          </div>
         </div>
       </div>
     </section>
