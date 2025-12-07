@@ -63,14 +63,15 @@ const Hero = ({ onBookClick, hasScrolled, onFirstScroll }) => {
         }}
       />
 
-      {/* Brand name + cherry row */}
+      {/* Brand name + cherry stack/row with even gap */}
       <div
         style={{
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: isMobile ? '12px' : 'clamp(16px, 3vw, 32px)',
+          // single source of spacing between Maraschino / cherry / Publicity
+          gap: isMobile ? 'clamp(24px, 5vh, 40px)' : 'clamp(16px, 3vw, 32px)',
           marginBottom: hasScrolled ? '48px' : '20px',
           textAlign: 'center',
           zIndex: 2,
@@ -80,8 +81,8 @@ const Hero = ({ onBookClick, hasScrolled, onFirstScroll }) => {
           style={{
             fontFamily: theme.fonts.heading,
             fontSize: isMobile
-              ? 'clamp(52px, 6vw, 28px)'
-              : 'clamp(52px, 4vw, 64px)',
+              ? 'clamp(40px, 7vw, 40px)'
+              : 'clamp(40px, 4.5vw, 60px)',
             color: theme.colors.cream,
             fontWeight: 400,
             letterSpacing: '-0.02em',
@@ -95,8 +96,8 @@ const Hero = ({ onBookClick, hasScrolled, onFirstScroll }) => {
 
         <div
           style={{
-            width: hasScrolled ? '220px' : isMobile ? '220px' : 'min(45vw, 340px)',
-            height: hasScrolled ? '220px' : isMobile ? '220px' : 'min(45vw, 340px)',
+            width: hasScrolled ? '220px' : isMobile ? '240px' : 'min(45vw, 340px)',
+            height: hasScrolled ? '220px' : isMobile ? '240px' : 'min(45vw, 340px)',
             animation: cherryVisible
               ? 'cherryDrop 1.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
               : 'none',
@@ -110,7 +111,7 @@ const Hero = ({ onBookClick, hasScrolled, onFirstScroll }) => {
             alt="Maraschino cherry"
             style={{
               width: '100%',
-              height: '140%',
+              height: '100%', // keep within its box so gap is consistent
               objectFit: 'contain',
               filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35))',
             }}
@@ -121,8 +122,8 @@ const Hero = ({ onBookClick, hasScrolled, onFirstScroll }) => {
           style={{
             fontFamily: theme.fonts.heading,
             fontSize: isMobile
-              ? 'clamp(52px, 6vw, 28px)'
-              : 'clamp(52px, 4vw, 64px)',
+              ? 'clamp(40px, 7vw, 40px)'
+              : 'clamp(40px, 4.5vw, 60px)',
             color: theme.colors.cream,
             fontWeight: 400,
             letterSpacing: '-0.02em',
