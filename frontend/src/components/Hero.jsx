@@ -4,12 +4,32 @@ import siteConfig from '../config/siteConfig';
 import Button from './Button';
 import { trackButtonClick } from '../utils/analytics';
 
-const Hero = ({ onBookClick, hasScrolled }) => {
+const Hero = ({ onBookClick, hasScrolled, onFirstScroll }) => {
   const [cherryVisible, setCherryVisible] = useState(false);
+  const [heroLocked, setHeroLocked] = useState(true); // intercept first scroll
+
+  const isMobile =
+    typeof window !== 'undefined' && window.innerWidth <= 768;
 
   useEffect(() => {
-    setTimeout(() => setCherryVisible(true), 100);
+    const timer = setTimeout(() => setCherryVisible(true), 100);
+    return () => clearTimeout(timer);
   }, []);
+
+  // Intercept the FIRST scroll at top: reveal text, don't move page
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (!heroLocked || hasScrolled) return;
+      if (window.scrollY <= 0 && e.deltaY > 0) {
+        e.preventDefault();
+        if (onFirstScroll) onFirstScroll();
+        setHeroLocked(false);
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [heroLocked, hasScrolled, onFirstScroll]);
 
   const handleBookClick = () => {
     trackButtonClick('hero_book_button', 'hero');
@@ -30,83 +50,113 @@ const Hero = ({ onBookClick, hasScrolled }) => {
         overflow: 'hidden',
       }}
     >
-        {/* Moody vignette / shadow tone */}
-  <div
-    style={{
-      position: 'absolute',
-      inset: 0,
-      background:
-        'radial-gradient(circle at top, rgba(0,0,0,0.18) 0%, transparent 55%),' +
-        'radial-gradient(circle at bottom, rgba(0,0,0,0.25) 0%, transparent 55%)',
-      pointerEvents: 'none',
-      zIndex: 0,
-    }}
-  />
-
-      {/* Animated Cherry - Always visible, larger when alone */}
+      {/* Moody vignette */}
       <div
         style={{
-          width: hasScrolled ? '200px' : 'min(35vw, 280px)',
-          height: hasScrolled ? '200px' : 'min(35vw, 280px)',
-          marginBottom: hasScrolled ? '48px' : '0',
-          animation: cherryVisible ? 'cherryDrop 1.4s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none',
-          opacity: cherryVisible ? 1 : 0,
-          transition: 'width 0.8s cubic-bezier(0.4, 0, 0.2, 1), height 0.8s cubic-bezier(0.4, 0, 0.2, 1), margin-bottom 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+          position: 'absolute',
+          inset: 0,
+          background:
+            'radial-gradient(circle at top, rgba(0,0,0,0.18) 0%, transparent 55%),' +
+            'radial-gradient(circle at bottom, rgba(0,0,0,0.25) 0%, transparent 55%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Brand name + cherry row */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: isMobile ? '12px' : 'clamp(16px, 3vw, 32px)',
+          marginBottom: hasScrolled ? '48px' : '20px',
+          textAlign: 'center',
+          zIndex: 2,
         }}
       >
-        <svg
-          viewBox="0 0 200 200"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3))' }}
+        <span
+          style={{
+            fontFamily: theme.fonts.heading,
+            fontSize: isMobile
+              ? 'clamp(52px, 6vw, 28px)'
+              : 'clamp(52px, 4vw, 64px)',
+            color: theme.colors.cream,
+            fontWeight: 400,
+            letterSpacing: '-0.02em',
+            whiteSpace: 'nowrap',
+            opacity: hasScrolled ? 0 : 1,
+            transition: 'opacity 0.7s ease',
+          }}
         >
-          {/* Cherry body with gradient */}
-          <defs>
-            <radialGradient id="cherryGradient" cx="0.3" cy="0.3">
-              <stop offset="0%" stopColor={theme.colors.secondary} stopOpacity="1" />
-              <stop offset="100%" stopColor="#ffb3d9" stopOpacity="1" />
-            </radialGradient>
-          </defs>
-          <circle cx="100" cy="120" r="60" fill="url(#cherryGradient)" />
-          <circle cx="130" cy="110" r="20" fill="rgba(255, 255, 255, 0.4)" />
-          <circle cx="125" cy="105" r="8" fill="rgba(255, 255, 255, 0.6)" />
-          {/* Stem */}
-          <path
-            d="M100 60 Q 90 40, 100 20"
-            stroke={theme.colors.accent}
-            strokeWidth="4"
-            fill="none"
-            strokeLinecap="round"
+          Maraschino
+        </span>
+
+        <div
+          style={{
+            width: hasScrolled ? '220px' : isMobile ? '220px' : 'min(45vw, 340px)',
+            height: hasScrolled ? '220px' : isMobile ? '220px' : 'min(45vw, 340px)',
+            animation: cherryVisible
+              ? 'cherryDrop 1.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              : 'none',
+            opacity: cherryVisible ? 1 : 0,
+            transition:
+              'width 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
+          <img
+            src="/images/cherry.png"
+            alt="Maraschino cherry"
+            style={{
+              width: '100%',
+              height: '140%',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35))',
+            }}
           />
-          {/* Small leaf */}
-          <path
-            d="M95 35 Q 85 30, 88 25 Q 90 28, 95 35"
-            fill={theme.colors.accent}
-            opacity="0.7"
-          />
-        </svg>
+        </div>
+
+        <span
+          style={{
+            fontFamily: theme.fonts.heading,
+            fontSize: isMobile
+              ? 'clamp(52px, 6vw, 28px)'
+              : 'clamp(52px, 4vw, 64px)',
+            color: theme.colors.cream,
+            fontWeight: 400,
+            letterSpacing: '-0.02em',
+            whiteSpace: 'nowrap',
+            opacity: hasScrolled ? 0 : 1,
+            transition: 'opacity 0.7s ease',
+          }}
+        >
+          Publicity
+        </span>
       </div>
 
-      {/* Hero Text - Only visible after scroll */}
-      <div 
-        style={{ 
-          textAlign: 'center', 
-          maxWidth: '900px', 
+      {/* Hero Text - appears after scroll, cherry stays above */}
+      <div
+        style={{
+          textAlign: 'center',
+          maxWidth: '900px',
           margin: '0 auto',
           opacity: hasScrolled ? 1 : 0,
           transform: hasScrolled ? 'translateY(0)' : 'translateY(30px)',
-          transition: 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, transform 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+          transition:
+            'opacity 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, transform 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
           pointerEvents: hasScrolled ? 'auto' : 'none',
+          zIndex: 2,
         }}
       >
         <h1
           style={{
             fontFamily: theme.fonts.heading,
             fontSize: 'clamp(32px, 6vw, 64px)',
-            lineHeight: '1.2',
+            lineHeight: 1.2,
             color: theme.colors.cream,
             marginBottom: '24px',
-            fontWeight: '400',
+            fontWeight: 400,
             letterSpacing: '-0.02em',
           }}
         >
@@ -119,8 +169,8 @@ const Hero = ({ onBookClick, hasScrolled }) => {
             color: theme.colors.accent,
             opacity: 0.9,
             marginBottom: '40px',
-            lineHeight: '1.6',
-            fontWeight: '300',
+            lineHeight: 1.6,
+            fontWeight: 300,
           }}
         >
           {siteConfig.hero.subLine}
@@ -141,6 +191,7 @@ const Hero = ({ onBookClick, hasScrolled }) => {
           opacity: hasScrolled ? 0 : 1,
           transition: 'opacity 0.5s ease',
           pointerEvents: 'none',
+          zIndex: 2,
         }}
       >
         <div
@@ -206,17 +257,6 @@ const Hero = ({ onBookClick, hasScrolled }) => {
           100% {
             transform: translateY(16px);
             opacity: 0;
-          }
-        }
-
-        @keyframes slideInUp {
-          from {
-            transform: translateY(100px);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
           }
         }
       `}</style>
