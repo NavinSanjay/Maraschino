@@ -303,7 +303,7 @@ export const siteConfig = {
   },
 
   footer: {
-    email: 'hello@maraschinopr.com',
+    email: 'maraschinopublicity@gmail.com',
     social: [
       { platform: 'Instagram', url: 'https://instagram.com/maraschinopr', icon: 'instagram' },
       { platform: 'LinkedIn', url: 'https://linkedin.com/company/maraschinopr', icon: 'linkedin' },

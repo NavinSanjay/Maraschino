@@ -149,7 +149,7 @@ const OurVibe = () => {
         </div>
 
         {/* Email capture band */}
-        <div
+        {/* <div
           style={{
             marginTop: '24px',
             padding: 'clamp(32px, 5vw, 52px) clamp(24px, 4vw, 40px)',
@@ -240,7 +240,7 @@ const OurVibe = () => {
               {message}
             </p>
           )}
-        </div>
+        </div> */}
       </div>
     </section>
   );
